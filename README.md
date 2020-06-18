@@ -76,12 +76,12 @@ usage: java -jar vermouth.jar
 
 Either a set of 1v1 competitions (`-1v,--oneall`) or a full round robin competition (`-rr,--roundrobin`) is run. Each match within the tournament faces off two of the specified agents (`--agents <agents>`) for a total of rounds (`--rounds <rounds>`). The result is a win percentage for different agent pairings for the specified tournament setting. 
 
-### Tournament Type (`-1v,--oneall` or `-rr,--roundrobin`) and Parameters (games)
+### Tournament Type (`-1v,--oneall` or `-rr,--roundrobin`) and Parameters (`-g,--games <games>`)
 There are two different types of tournaments supported by this software. The first, `--oneall`, specifies a one-vs-all competition should be held between the first listed agent and the subsequent listed agents. The second, `--roundrobin`, specifies a round-robin competition wherein each listed agent competes with other listed agents. Agents can be specified multiple times, with each being loaded and initialized independently.
 
 Each tournament type specifies a sequence of matches. Each of those matches will consist of a number of games (`--games`). All matches will have an identical number of games.
 
-### Competitor Agents (`-a,--agents <agents`)
+### Competitor Agents (`-a,--agents <agents>`)
 Each agent is specified as a URL with a designated protocol. 
 - For class files which are to be __loaded directly from the file system__, you must use `file:` as a protocol, e.g., `file:./SimpleGinRummyPlayer`. In this case, the tournament software will load the file `SimpleGinRummyPlayer.class` (assumed to be derived from `eaai.ginrummy.game.GinRummyPlayer`) in the current relative directory. Note the absence of the `.class` suffix. 
 - For class files wich are to be __loaded from a jar (or a zip)__, you must use `jar:file:` as a protocol (it is still `jar:file:` even if the file is just a plain zip containing your code), e.g.,  `jar:file:./SimpleGinRummyPlayer.jar!/SimpleGinRummyPlayer`. In this case, the tournament software will load the file `SimpleGinRummyPlayer.class` contained in the jar `SimpleGinRummyPlayer.jar` (assumed to be derived from `eaai.ginrummy.game.GinRummyPlayer`) in the current relative directory. Note the absence of the `.class` suffix.
