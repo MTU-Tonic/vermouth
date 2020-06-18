@@ -14,7 +14,7 @@ Optionally, you can bundle the resulting class files into a JAR or alternatively
 
 1) For two Gin Rummy agents, `MyGinRummyPlayer.class` and `YourGinRummyPlayer.class`, both in the current directory, execute a one-vs-one competition consisting of 100 games.
 ```
-java -jar target/vermouth.jar 
+java -jar vermouth.jar 
    --oneall 
    --games 100 
    --agents 'file:./MyGinRummyPlayer' 'file:./YourGinRummyPlayer'
@@ -23,7 +23,7 @@ Results are stored in a timestamped zip file with no game or agent output.
 
 2) For four Gin Rummy agents, each named `AwesomeAgent.class` but independently stored in unique JAR files `Competitor0.jar`, `Competitor1.jar`, `Competitor2.jar`, and `Competitor3.jar`, all in the current directory, execute a round-robin competition consisting of 50 games for each match. 
 ```
-java -jar target/vermouth.jar 
+java -jar vermouth.jar 
    --roundrobin 
    --games 50
    --agents 'jar:file:./Competitor0.jar!/AwesomeAgent' 
@@ -36,7 +36,7 @@ Results are stored in a timestamped zip file and all game and agent output is ca
 
 3) One Gin Rummy agent, `MyGinRummyPlayer.class`, is run against three Gin Rummy agents, each named `Agent.class` but independently stored in unique JAR files `SimpleApproach.jar`, `CounterfactualApproach.jar`, and `AdversarialApproach.jar`, each in the directory `/home/jshiebel/agents/`, with each match consisting of 1000 games.
 ```
-java -jar target/vermouth.jar 
+java -jar vermouth.jar 
    --roundrobin 
    --games 50
    --agents 'file:./MyGinRummyPlayer' 
@@ -51,9 +51,9 @@ Results are stored in a zip file named `MyGinRummyPlayer-ComparisonTest.zip` and
 ## Usage
 The project will load class files which are derived from `eaai.ginrummy.game.GinRummyPlayer`. In order to compile agents against the provided contracts, you should run `javac` with `vermouth.jar` included on the classpath, e.g.,
 ```
-javac -cp ".:./target/vermouth.jar" SimpleGinRummyPlayer.java
+javac -cp ".:./vermouth.jar" MyGinRummyPlayer.java
 ```
-The result will generate `SimpleGinRummyPlayer.class`, along with any other required class files.
+The result will generate `MyGinRummyPlayer.class`, along with any other required class files.
 
 Agents are loaded at runtime using Java reflection on specified class files. The following details the command-line arguments.
 ```
