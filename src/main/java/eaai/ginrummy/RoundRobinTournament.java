@@ -81,7 +81,7 @@ public class RoundRobinTournament extends Tournament {
 			for(int p0 = 0; p0 < players.size(); p0 += 1, m += 1) {
 				for(int p1 = 0; p1 < players.size(); p1 += 1, m += 1) {
 					if(p0 == p1) { continue; }
-					
+
 					LOG.info("starting match [{}]{} vs [{}]{}", p0, classes.get(p0), p1, classes.get(p1));
 					int wins = 0;
 					for(int g = 0; g < rounds; g += 1) {
@@ -100,7 +100,7 @@ public class RoundRobinTournament extends Tournament {
 
 						System.setOut(out);
 						System.setErr(err);
-						gameStream.close();
+						if(gameStream != System.out) { gameStream.close(); }
 
 						gamesWriter.writeNext(new String[] { Integer.toString(m), Integer.toString(g), Integer.toString(p0), Integer.toString(scores[0]), Integer.toString(scores[0] > scores[1] ? 1 : 0) });
 						gamesWriter.writeNext(new String[] { Integer.toString(m), Integer.toString(g), Integer.toString(p1), Integer.toString(scores[1]), Integer.toString(scores[0] < scores[1] ? 1 : 0) });
