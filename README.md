@@ -19,6 +19,8 @@ As vermouth relies on the Todd Neller's [gin-rummy-eaai](https://github.com/tnel
 Optionally, you can bundle the resulting class files into a JAR or alternatively just ZIP your class files. The tournament software supports both deployments. __TODO:__ At this point, it is untested whether or not this approach will allow the resulting agents to load external resources from their respective deployment directory/file. However, it is noted that such an act is common and support will be pursued in the near future.
 
 ### Examples
+These examples are provided for unix/bsd-based operating systems (including OSX). **Windows users note:** it has been reported that you must use full absolute paths to be properly recognized as a URL, e.g., ```"file://D:/vermouth-master/players/mtu/AI_20"```.
+
 1) For two Gin Rummy agents, `MyGinRummyPlayer.class` and `YourGinRummyPlayer.class`, both in the current directory, execute a one-vs-one competition consisting of 100 games.
 ```
 java -jar vermouth.jar 
