@@ -1,5 +1,16 @@
 #!/usr/bin/env Rscript
 
+# Calculates the running average Elo ranking and the standard error of the mean
+# as a confidence interval using an Elo tournament output file as a command line
+# argument.
+#
+# Usage: ./average-elo.r --run <data file>
+# Be sure to make this file as executable!
+#
+# Requires packages argparser and ggplot2 in order to run. Using the R REPL, run
+#     install.package("argparser")
+#     install.package("ggplot2")
+
 ### parse command line arguments
 library(argparser, quietly=TRUE)
 parser <- arg_parser("Average Elo Ranking Plot")
