@@ -23,6 +23,7 @@ import com.opencsv.CSVWriter;
 import ginrummy.GinRummyGame;
 import ginrummy.GinRummyPlayer;
 import eaai.ginrummy.util.FileMap;
+import eaai.ginrummy.util.RunningStatistic;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -73,15 +74,19 @@ public class EloTournament extends Tournament {
 				.map(p -> 1000)
 				.collect(Collectors.toList());
 
+			List<RunningStatistic> averages = players.stream()
+				.map(p -> new RunningStatistic(1000.))
+				.collect(Collectors.toList());
+
 			Path playerPath = FileMap.get().getPath("players.csv");
 			CSVWriter playerWriter = new CSVWriter(new PrintWriter(Files.newOutputStream(playerPath, StandardOpenOption.CREATE_NEW)), ',', '\0', '\\', "\n");
 			playerWriter.writeNext(new String[] { "ID", "NAME" });
 			for(int p = 0; p < players.size(); p += 1) { playerWriter.writeNext(new String[] { Integer.toString(p), classes.get(p).name() }); }
-			playerWriter.close();
 
 			Path roundPath = FileMap.get().getPath("rounds.csv");
 			CSVWriter roundWriter = new CSVWriter(new PrintWriter(Files.newOutputStream(roundPath, StandardOpenOption.CREATE_NEW)), ',', '\0', '\\', "\n");
 			roundWriter.writeNext(new String[] { "ROUND", "PLAYER", "RANKING" });
+			for (int p = 0; p < players.size(); p += 1) { roundWriter.writeNext(new String[] { Integer.toString(0), Integer.toString(p), Integer.toString(rankings.get(p)) }); }
 
 			Path gamesPath = FileMap.get().getPath("games.csv");
 			CSVWriter gamesWriter = new CSVWriter(new PrintWriter(Files.newOutputStream(gamesPath, StandardOpenOption.CREATE_NEW)), ',', '\0', '\\', "\n");
@@ -90,10 +95,6 @@ public class EloTournament extends Tournament {
 			Path statsPath = FileMap.get().getPath("stats.csv");
 			CSVWriter statsWriter = new CSVWriter(new PrintWriter(Files.newOutputStream(statsPath, StandardOpenOption.CREATE_NEW)), ',', '\0', '\\', "\n");
 			statsWriter.writeNext(new String[] { "METHOD", "PLAYER", "TIME" });
-
-			for (int p = 0; p < players.size(); p += 1) {
-				roundWriter.writeNext(new String[] { Integer.toString(0), Integer.toString(p), Integer.toString(rankings.get(p)) });
-			}
 
 			int m = 0;
 			for(int r = 1; r <= rounds; r += 1) {
@@ -154,14 +155,19 @@ public class EloTournament extends Tournament {
 
 				for (int p = 0; p < players.size(); p += 1) {
 					rankings.set(p, rankings.get(p) + (int)Math.round(updates.get(p)));
+					averages.get(p).add(rankings.get(p));
 					roundWriter.writeNext(new String[] { Integer.toString(r), Integer.toString(p), Integer.toString(rankings.get(p)) });
 				}
-				LOG.info("final rankings {}", rankings.stream().map(p -> String.format("%04d", p)).collect(Collectors.toList()));
+				LOG.info("final rankings {}, {}",
+					rankings.stream().map(p -> String.format("%04d", p)).collect(Collectors.toList()),
+					averages.stream().map(p -> String.format("%06.2f", p.mean())).collect(Collectors.toList())
+				);
 			}
 
-			roundWriter.close();
-			gamesWriter.close();
-			statsWriter.close();
+			playerWriter.close();
+			 roundWriter.close();
+			 gamesWriter.close();
+			 statsWriter.close();
 		}
 		catch(IOException except) {
 			LOG.fatal("could not write game files", except);
