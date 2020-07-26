@@ -165,7 +165,7 @@ public class Main {
 			}
 
 			/* competition parameters */
-			String identifier = cmd.getOptionValue("id", (new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss:SSS")).format(new Date()));
+			String identifier = cmd.getOptionValue("id", (new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS")).format(new Date()));
 			int games = Integer.parseInt(cmd.getOptionValue("g", "1"));
 			boolean verbose = cmd.hasOption("v");
 			LOG.info("competition parameters: id ({}), rounds ({}), verbose ({})", identifier, games, verbose);
