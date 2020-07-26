@@ -79,9 +79,7 @@ public class RoundRobinTournament extends Tournament {
 
 			int m = 0;
 			for(int p0 = 0; p0 < players.size(); p0 += 1, m += 1) {
-				for(int p1 = 0; p1 < players.size(); p1 += 1, m += 1) {
-					if(p0 == p1) { continue; }
-
+				for(int p1 = p0 + 1; p1 < players.size(); p1 += 1, m += 1) {
 					LOG.info("starting match [{}]{} vs [{}]{}", p0, classes.get(p0), p1, classes.get(p1));
 					int wins = 0;
 					for(int g = 0; g < rounds; g += 1) {
