@@ -2,7 +2,7 @@
 This project facilitates tournament evaluation and data collection for Gin Rummy player agents developed for the EAAI 2020 undergraduate research experience.
 
 ## Overview
-The following examples **should** be runnable with the (release jar)[https://github.com/MTU-Tonic/vermouth/releases] version of the tournament software, provided for your convenience. You should not need to compile the tournament software yourselves, except if you spot a bug or feature and would like to address it quicker than you think I can. Should you wish to compile the tournament software from source, you can use (Apache Maven)[https://maven.apache.org/], which is a standard Java build system widely available. The command
+The following examples **should** be runnable with the [release jar](https://github.com/MTU-Tonic/vermouth/releases) version of the tournament software, provided for your convenience. You should not need to compile the tournament software yourselves, except if you spot a bug or feature and would like to address it quicker than you think I can. Should you wish to compile the tournament software from source, you can use [Apache Maven](https://maven.apache.org/), which is a standard Java build system widely available. The command
 ```
 mvn package
 ```
