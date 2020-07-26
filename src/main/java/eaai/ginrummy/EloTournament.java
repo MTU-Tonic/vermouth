@@ -98,14 +98,14 @@ public class EloTournament extends Tournament {
 
 			int m = 0;
 			for(int r = 1; r <= rounds; r += 1) {
-				LOG.info("starting round {} with rankings {}", String.format("%4d", r), rankings.stream().map(p -> String.format("%04d", p)).collect(Collectors.toList()));
+				LOG.info("starting round {} with average rankings {}", Integer.toString(r), averages.stream().map(p -> String.format("%06.4f", p.mean())).collect(Collectors.toList()));
 
 				List<Integer> updates = players.stream()
 					.map(p -> 0)
 					.collect(Collectors.toList());
 				for(int p0 = 0; p0 < players.size(); p0 += 1, m += 1) {
 					for(int p1 = p0 + 1; p1 < players.size(); p1 += 1, m += 1) {
-						LOG.info("starting match [{}]{} (rank {}) vs [{}]{} (rank {})", p0, classes.get(p0), rankings.get(p0), p1, classes.get(p1), rankings.get(p1));
+						LOG.info("starting match [{}] {} (rank {}) vs [{}] {} (rank {})", p0, classes.get(p0).name(), rankings.get(p0), p1, classes.get(p1).name(), rankings.get(p1));
 
 						PrintStream gameStream = System.out;
 						if(verbose) {
@@ -127,29 +127,21 @@ public class EloTournament extends Tournament {
 						// earned score (is a draw possible?)
 						double s0 = scores[0] > scores[1] ? 1 : 0;
 						double s1 = scores[1] > scores[0] ? 1 : 0;
-						LOG.info("score: {}/{}", s0, s1);
-
 						// quality ranking score
 						double q0 = Math.pow(10, rankings.get(p0) / 400.);
 						double q1 = Math.pow(10, rankings.get(p1) / 400.);
-						LOG.info("quality: {}/{}", q0, q1);
-
 						// expected ranking socre
 						double e0 = q0 / (q0 + q1);
 						double e1 = q1 / (q0 + q1);
-						LOG.info("expected: {}/{}", e0, e1);
-
 						// calculate and accumulate score adjustments
 						final int K = 8;
 						double d0 = K * (s0 - e0);
-						updates.set(p0, updates.get(p0) + (int)Math.round(d0));
 						double d1 = K * (s1 - e1);
+						updates.set(p0, updates.get(p0) + (int)Math.round(d0));
 						updates.set(p1, updates.get(p1) + (int)Math.round(d1));
-						LOG.info("delta: {}/{}", d0, d1);
 
 						gamesWriter.writeNext(new String[] { Integer.toString(m), Integer.toString(r), Integer.toString(p0), Integer.toString(scores[0]), Integer.toString(scores[0] > scores[1] ? 1 : 0) });
 						gamesWriter.writeNext(new String[] { Integer.toString(m), Integer.toString(r), Integer.toString(p1), Integer.toString(scores[1]), Integer.toString(scores[0] < scores[1] ? 1 : 0) });
-						LOG.info("final scores [{}, {}]", scores[0], scores[1]);
 					}
 				}
 
@@ -158,11 +150,9 @@ public class EloTournament extends Tournament {
 					averages.get(p).add(rankings.get(p));
 					roundWriter.writeNext(new String[] { Integer.toString(r), Integer.toString(p), Integer.toString(rankings.get(p)) });
 				}
-				LOG.info("final rankings {}, {}",
-					rankings.stream().map(p -> String.format("%04d", p)).collect(Collectors.toList()),
-					averages.stream().map(p -> String.format("%06.2f", p.mean())).collect(Collectors.toList())
-				);
 			}
+
+			LOG.info("final average rankings {}", averages.stream().map(p -> String.format("%06.2f", p.mean())).collect(Collectors.toList()));
 
 			playerWriter.close();
 			 roundWriter.close();
