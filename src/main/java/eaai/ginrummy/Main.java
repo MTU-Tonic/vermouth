@@ -90,6 +90,11 @@ public class Main {
 				.longOpt("roundrobin")
 				.argName("roundrobin")
 				.desc("run a round robin competition between the competitors")
+				.build())
+			.addOption(Option.builder("el")
+				.longOpt("elo")
+				.argName("elo")
+				.desc("run a Elo-scored competition between the competitors")
 				.build()));
 
 		/* specify competition parameters */
@@ -148,11 +153,15 @@ public class Main {
 			String type = null;
 			if(cmd.hasOption("1v")) { type = "1v"; }
 			if(cmd.hasOption("rr")) { type = "rr"; }
+			if(cmd.hasOption("el")) { type = "el"; }
 			switch(type) {
 				default:   LOG.warn("no competition type specified, setting one-vs-all as default");
 				case "1v": LOG.info("competition type: one-vs-all");
 					break;
 				case "rr": LOG.info("competition type: round-robin");
+					break;
+				case "el": LOG.info("competition type: elo");
+					break;
 			}
 
 			/* competition parameters */
@@ -189,6 +198,7 @@ public class Main {
 			switch(type) {
 				case "1v" : new OneAllTournament     (agents, games, cmd.hasOption("v"), random).run(); break;
 			 	case "rr" : new RoundRobinTournament (agents, games, cmd.hasOption("v"), random).run(); break;
+				case "el" : new EloTournament        (agents, games, cmd.hasOption("v"), random).run(); break;
 			}
 
 			try {
