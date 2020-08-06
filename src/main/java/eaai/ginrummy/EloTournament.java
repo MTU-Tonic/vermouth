@@ -103,7 +103,7 @@ public class EloTournament extends Tournament {
 				List<Integer> updates = players.stream()
 					.map(p -> 0)
 					.collect(Collectors.toList());
-				for(int p0 = 0; p0 < players.size(); p0 += 1, m += 1) {
+				for(int p0 = 0; p0 < players.size(); p0 += 1) {
 					for(int p1 = p0 + 1; p1 < players.size(); p1 += 1, m += 1) {
 						LOG.info("starting match [{}] {} (rank {}) vs [{}] {} (rank {})", p0, classes.get(p0).name(), rankings.get(p0), p1, classes.get(p1).name(), rankings.get(p1));
 
