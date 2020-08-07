@@ -8,11 +8,15 @@ mvn package
 ```
 run at the repository's root should be sufficient to generate an executable JAR in the `target` directory. Please note that you should look for the generated JAR with `EXEC` in the file descriptor.
 
-Agents can be compiled against the runtime software by adding `vermouth.jar` to the classpath when running `javac`. For example
+Agents can be compiled against the runtime software by adding `vermouth.jar` to the classpath when running `javac`. For example, on Unix and OSX
 ```
 javac -cp ".:./vermouth.jar" MyGinRummyPlayer.java
 ```
-will compile the file `MyGinRummyPlayer.java`, along side any other necessary files, using the vermouth package jar. The agent specified by the `MyGinRummyPlayer` class should be derived from `ginrummy.GinRummyPlayer` in order to work properly with this tournament software. Classes can exist within any package structure, however the following assumes that all classes reside in the default package.
+and on Windows
+```
+javac -cp ".;./vermouth.jar" MyGinRummyPlayer.java
+```
+(note the colon vs the semicolon) will compile the file `MyGinRummyPlayer.java`, along side any other necessary files, using the vermouth package jar. The agent specified by the `MyGinRummyPlayer` class should be derived from `ginrummy.GinRummyPlayer` in order to work properly with this tournament software. Classes can exist within any package structure, however the following assumes that all classes reside in the default package.
 
 As vermouth relies on the Todd Neller's [gin-rummy-eaai](https://github.com/tneller/gin-rummy-eaai) project to execute the game logic and understand the structure of agents, those classes are included in the jar and will be as up-to-date as the vermouth release. This eliminates the need for managing those files in your own project. Including the vermouth jar in your `javac` classpath will provide the `ginrummy` package and it's contents to the compiler.
 
